@@ -17,7 +17,7 @@ If you sign in with Google, we receive your email address to identify your accou
 No ads, no analytics, no tracking, and no selling or sharing of data with anyone. Data is used only to show and sync your own highlights.
 
 ## Your control
-Export everything as Markdown or JSON from the library at any time. Delete a highlight and it is deleted from every synced device. To delete your account and all of its data, email shambhu@lawcubator.com.
+Export everything as Markdown or JSON from the library at any time. Delete a highlight and it is deleted from every synced device. To delete your account and all of its data, email shambhu04.kumar@gmail.com.
 
 ## Contact
-shambhu@lawcubator.com
+shambhu04.kumar@gmail.com
