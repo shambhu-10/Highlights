@@ -62,7 +62,7 @@ ui.innerHTML = `
   #del { border: 0; background: none; padding: 0; color: #8a877f; cursor: pointer; }
   #del:hover { color: #b3261e; }
 </style>
-<button id="btn" title="Alt+H" hidden>Highlight</button>
+<button id="btn" title="${SHORTCUT}" hidden>Highlight</button>
 <div id="pop" hidden><textarea placeholder="Note  (#tags work)"></textarea><button id="del">Delete</button></div>`;
 const [btn, pop, note, del] = ['#btn', '#pop', 'textarea', '#del'].map(s => ui.querySelector(s));
 document.querySelector('highlights-ext')?.remove(); // left by a copy from before the extension reloaded

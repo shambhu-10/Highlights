@@ -70,7 +70,7 @@ function render() {
   $('empty').hidden = shown.length > 0;
   $('empty').textContent = rows.length
     ? 'Nothing matches.'
-    : 'Nothing here yet. Select text on any page and press Alt+H, or click Highlight.';
+    : `Nothing here yet. Select text on any page and press ${SHORTCUT}, or click Highlight.`;
 }
 
 function download(name, text, type) {

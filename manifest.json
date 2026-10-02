@@ -23,7 +23,7 @@
   },
   "commands": {
     "highlight": {
-      "suggested_key": { "default": "Alt+H" },
+      "suggested_key": { "default": "Alt+H", "mac": "MacCtrl+Shift+H" },
       "description": "Highlight the selected text"
     }
   }

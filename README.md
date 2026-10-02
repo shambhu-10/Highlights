@@ -2,7 +2,7 @@
 
 Highlight the web. Find it again.
 
-Select text on any page and click **Highlight** (or press `Alt+H`, or right-click → Highlight). Click a highlight to add a note; `#words` in a note are tags. The toolbar button holds a note for the whole page. The library page lists everything, with one search box (`#tag` filters) and Markdown/JSON export.
+Select text on any page and click **Highlight** (or press `Alt+H` on Windows/Linux, `Control+Shift+H` on Mac, or right-click → Highlight). Click a highlight to add a note; `#words` in a note are tags. The toolbar button holds a note for the whole page. The library page lists everything, with one search box (`#tag` filters) and Markdown/JSON export.
 
 Works without an account. Sign in with Google to sync across devices.
 
@@ -24,7 +24,8 @@ You need Google Chrome (or another Chromium browser such as Brave, Edge or Arc) 
 That's it. Tabs that are already open work right away, with no refresh needed.
 
 ### Use it
-- **Highlight:** select text, then click the black **Highlight** button that appears (or press `Alt+H`).
+- **Highlight:** select text, then click the black **Highlight** button that appears (or press `Alt+H` on Windows/Linux, `Control+Shift+H` on Mac).
+  To change the shortcut, open `chrome://extensions/shortcuts`.
 - **Add a note:** click any highlight. Add `#tags` in the note.
 - **Note on the whole page:** click the toolbar icon.
 - **See everything:** toolbar icon → **Library**. Search, filter by `#tag`, export.
@@ -39,6 +40,8 @@ git pull
 ```
 
 Then click the reload icon on **Highlights** in `chrome://extensions`.
+
+Chrome keeps the existing keyboard shortcut when an extension updates. If a new shortcut doesn't work, set it at `chrome://extensions/shortcuts`.
 
 ## Run your own sync server (optional)
 

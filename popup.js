@@ -7,7 +7,7 @@ if (/^https?:/.test(tab?.url || '')) {
   const key = pageKey(url);
   const live = Object.values((await chrome.storage.local.get(key))[key] || {}).filter(r => !r.deleted);
   const n = live.filter(r => r.quote).length;
-  $('count').textContent = n ? `${n} highlight${n > 1 ? 's' : ''} on this page` : 'Select text on the page, then Highlight (or Alt+H).';
+  $('count').textContent = n ? `${n} highlight${n > 1 ? 's' : ''} on this page` : `Select text on the page, then Highlight (or ${SHORTCUT}).`;
   let pageNote = live.find(r => !r.quote)
     || { id: crypto.randomUUID(), url, title: tab.title, quote: null, created_at: new Date().toISOString() };
   $('note').value = pageNote.note || '';

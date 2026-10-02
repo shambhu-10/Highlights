@@ -89,6 +89,9 @@ function normalizeUrl(href) {
   return u.href;
 }
 
+// The default shortcut from manifest.json, for hints in the UI.
+const SHORTCUT = /Mac/.test(navigator.platform) ? '⌃⇧H' : 'Alt+H';
+
 // Highlights are stored one key per page: "p:<url>" -> { [id]: row }.
 const pageKey = url => 'p:' + url;
 
