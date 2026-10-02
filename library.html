@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Highlights</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body>
+  <div class="library">
+    <header>
+      <h1>Highlights</h1>
+      <input id="q" type="search" placeholder="Search  (#tag to filter)" autofocus>
+      <span id="account"></span>
+    </header>
+    <main id="list"></main>
+    <p id="empty" hidden></p>
+    <footer>
+      <button id="md">Export Markdown</button>
+      <button id="json">Export JSON</button>
+      <button id="import">Import</button>
+      <input id="file" type="file" accept=".json,application/json" hidden>
+      <span id="status" class="meta"></span>
+    </footer>
+  </div>
+  <script src="shared.js"></script>
+  <script type="module" src="library.js"></script>
+</body>
+</html>
