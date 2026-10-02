@@ -198,6 +198,8 @@ chrome.runtime.onMessage.addListener((msg, _sender, reply) => {
 const highlightIn = tab => tab?.id && chrome.tabs.sendMessage(tab.id, { type: 'highlight' }).catch(() => {});
 
 chrome.runtime.onInstalled.addListener(async () => {
+  // Menus survive updates; recreating one with the same id would error.
+  await chrome.contextMenus.removeAll();
   chrome.contextMenus.create({ id: 'highlight', title: 'Highlight', contexts: ['selection'] });
   // Chrome only injects content scripts on page load; reach tabs that were already open.
   for (const tab of await chrome.tabs.query({ url: ['http://*/*', 'https://*/*'] })) {

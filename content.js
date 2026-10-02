@@ -5,6 +5,17 @@ let url, key, rows = {}, ranges = new Map(); // id -> Range
 const painted = new Highlight();
 CSS.highlights.set('highlights-ext', painted);
 
+// After the extension reloads, updates or is removed, this copy keeps running in open
+// tabs but can no longer reach chrome.*. Every entry point checks, and shuts it down.
+const off = new AbortController();
+const alive = () => !!chrome.runtime?.id || (stop(), false);
+function stop() {
+  off.abort();
+  observer.disconnect();
+  painted.clear();
+  host.remove();
+}
+
 async function load() {
   url = normalizeUrl(location.href);
   key = pageKey(url);
@@ -17,7 +28,7 @@ function paint() {
   ranges = new Map();
   const live = Object.values(rows).filter(r => r.quote && !r.deleted);
   if (!live.length) return;
-  const index = textIndex(document.body);
+  const index = textIndex(document.body || document.documentElement);
   for (const r of live) {
     const start = locate(index.text, r.quote, r.prefix, r.suffix);
     if (start < 0) continue; // the page changed; the highlight still lives in the library
@@ -36,16 +47,18 @@ chrome.storage.onChanged.addListener((changes, area) => {
 
 // Late-loading content and single-page-app navigation.
 let pending;
-new MutationObserver(() => {
+const observer = new MutationObserver(() => {
   pending ||= setTimeout(() => {
     pending = null;
+    if (!alive()) return;
     normalizeUrl(location.href) === url ? paint() : load();
   }, 500);
-}).observe(document.body, { childList: true, subtree: true, characterData: true });
+});
+observer.observe(document.documentElement, { childList: true, subtree: true, characterData: true });
 
 // --- UI, in a closed shadow root so page styles can't reach it ---
 
-const host = document.createElement('highlights-ext');
+const host = document.createElementNS('http://www.w3.org/1999/xhtml', 'highlights-ext'); // HTML even in SVG/XML pages
 host.style.cssText = 'position:absolute;top:0;left:0;z-index:2147483647';
 const ui = host.attachShadow({ mode: 'closed' });
 ui.innerHTML = `
@@ -62,8 +75,8 @@ ui.innerHTML = `
   #del { border: 0; background: none; padding: 0; color: #8a877f; cursor: pointer; }
   #del:hover { color: #b3261e; }
 </style>
-<button id="btn" title="${SHORTCUT}" hidden>Highlight</button>
-<div id="pop" hidden><textarea placeholder="Note  (#tags work)"></textarea><button id="del">Delete</button></div>`;
+<button id="btn" title="${SHORTCUT}" hidden="">Highlight</button>
+<div id="pop" hidden=""><textarea placeholder="Note  (#tags work)"></textarea><button id="del">Delete</button></div>`;
 const [btn, pop, note, del] = ['#btn', '#pop', 'textarea', '#del'].map(s => ui.querySelector(s));
 document.querySelector('highlights-ext')?.remove(); // left by a copy from before the extension reloaded
 document.documentElement.append(host);
@@ -85,7 +98,7 @@ async function create() {
   const d = describe(sel.getRangeAt(0));
   if (!d) return;
   sel.removeAllRanges();
-  await send('save', { row: { url, title: document.title, ...d, note: '' } });
+  await send('save', { row: { url, title: document.title, ...d, note: '' } }).catch(console.error);
 }
 
 let editing; // the row whose note is open
@@ -99,7 +112,7 @@ function openNote(id, x, y) {
 function closeNote() {
   if (!editing) return;
   const value = note.value.trim();
-  if (value !== (editing.note || '')) send('save', { row: { ...editing, note: value } });
+  if (value !== (editing.note || '')) send('save', { row: { ...editing, note: value } }).catch(console.error);
   editing = null;
   pop.hidden = true;
 }
@@ -112,7 +125,7 @@ function hitTest(x, y) {
 btn.addEventListener('mousedown', e => e.preventDefault()); // keep the selection
 btn.addEventListener('click', create);
 del.addEventListener('click', () => {
-  send('remove', { row: editing });
+  send('remove', { row: editing }).catch(console.error);
   editing = null;
   pop.hidden = true;
 });
@@ -121,13 +134,15 @@ note.addEventListener('keydown', e => {
   if (e.key === 'Escape') { note.value = editing.note || ''; closeNote(); }
 });
 
-document.addEventListener('mousedown', e => {
+const listen = (type, fn) => document.addEventListener(type, e => alive() && fn(e), { signal: off.signal });
+
+listen('mousedown', e => {
   if (e.composedPath().includes(host)) return;
   closeNote();
   btn.hidden = true;
 });
 
-document.addEventListener('mouseup', e => {
+listen('mouseup', e => {
   if (e.composedPath().includes(host)) return;
   setTimeout(() => { // let the selection settle
     const sel = getSelection();
