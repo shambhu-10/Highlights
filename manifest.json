@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Highlights",
   "version": "0.1.0",
-  "description": "Highlight the web. Find it again.",
+  "description": "Highlight text on any web page, add notes and #tags, and find it all again in one searchable library.",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAluCGoI1B4HeAvtpl4yM1Ps3UcmBdH+Xk/Jpz4UYxsIzHkYcD0Z6UacBCprsGEUcXUcwWd6CJvGGTijXagUGyXtC3k3hjA4K4znqleZOEaK5HrGkt4uZn9lAGS63lA9U1xCKG6TzLMZhInD0KEbNRcYhTbrQKnVWGox0Kmg7cQlce4aELKkJzJRTT3h+mW0A3NTFuvcyqdbi5zreSfROkyoHH+9UZV7/RNw5u0iFYnvH/EU6Wv6wFVpVVaAi9BhfpdtidTpJI0KFuM9YmxsHxqNe8Mc8PG7tpszYh0/B7sMY6v49g61FlAkF1HukNijMUpmSXaBevm4HUsy4IZKTKsQIDAQAB",
   "permissions": ["storage", "unlimitedStorage", "contextMenus", "identity", "alarms", "activeTab", "scripting"],
   "host_permissions": ["http://*/*", "https://*/*"],
